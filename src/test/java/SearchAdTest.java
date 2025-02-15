@@ -1,9 +1,13 @@
 import factory.WebDriverFactory;
+import io.qameta.allure.Description;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import pages.MainPage;
+
+import static io.qameta.allure.Allure.step;
 
 public class SearchAdTest {
 
@@ -22,12 +26,18 @@ public class SearchAdTest {
     }
 
     @Test
+    @DisplayName("Поиск объявлений")
+    @Description("Тест на проверку соответствия поисковой выдачи слову в поисковой строке")
     public void adSearching() {
         MainPage mainPage = new MainPage(driver);
-        mainPage.open("/");
+        step("Открыть главную страницу", () -> {
+            mainPage.open("/");
+        });
         String word = "диван";
+        step("Ввестив поиск 'Диван', проверить, что во всех названиях есть это слово", () -> {
         mainPage.search(word)
                 .changeLimit()
                 .titleCheck(word);
+         });
     }
 }
